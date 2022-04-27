@@ -11,7 +11,7 @@ def blog_view(request):
 
 
 def blog_single(request, pid):
-    post = get_object_or_404(Post, pk=pid)
+    post = get_object_or_404(Post, pk=pid, status=1)
     post.counted_views = post.counted_views + 1
     context = {'post': post}
     post.save()
