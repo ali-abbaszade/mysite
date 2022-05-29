@@ -9,8 +9,17 @@
 </head>
 <body>
     <h1>This test page</h1>
+    <div>
+        <form action="{% url 'website:test' %}" method="post">
+            {% csrf_token %}
+
+            {{form.as_p}}
+
+            <button type="submit">Submit</button>
+            
+        </form>
+    </div>        
     
-    {% popularposts %}
 
 </body>
 </html>

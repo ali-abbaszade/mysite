@@ -22,9 +22,9 @@ def total_posts():
 def snippet(value, arg=5):
     return value[:arg] + "..."
 
-@register.inclusion_tag('blog/blog-papular-post.html') 
+@register.inclusion_tag('blog/blog-latest-post.html') 
 def latestposts(arg=3):
-    posts = Post.objects.filter(status=1).order_by('published_date')[:arg]
+    posts = Post.objects.filter(status=1).order_by('-published_date')[:arg]
     return {'posts':posts}   
 
 @register.inclusion_tag('blog/blog-post-category.html')
@@ -36,3 +36,9 @@ def postcategories():
         cat_dict[name] = posts.filter(category=name).count()
 
     return {'categories':cat_dict}    
+
+@register.inclusion_tag('website/index-latest-posts.html')
+def six_latest_posts():
+    posts = Post.objects.filter(status=1).order_by('-published_date')[:6]
+
+    return {'posts':posts}    
