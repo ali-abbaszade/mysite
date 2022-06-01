@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 2
 
 # Application definition
 
@@ -39,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'website.apps.WebsiteConfig',
     'django.contrib.humanize',
+    'django.contrib.sitemaps',
     'django_extensions',
+    'django.contrib.sites',
     'blog',
 ]
 
