@@ -16,6 +16,9 @@ def contact_view(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
+            new_name = form.save(commit=False)
+            new_name.name = 'Unknwon'
+    
             form.save()
             messages.add_message(request, messages.SUCCESS, "Your ticket submited successfully")
         else:
