@@ -27,7 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Sites Framework
 SITE_ID = 2
+
+# Robots
+ROBOTS_USE_SITEMAP = False
+ROBOTS_USE_HOST = False
 
 # Application definition
 
@@ -38,12 +43,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'website.apps.WebsiteConfig',
     'django.contrib.humanize',
     'django.contrib.sitemaps',
-    'django_extensions',
     'django.contrib.sites',
+    'django_extensions',
+    "debug_toolbar",
+    'robots',
     'blog',
+    'taggit',
+    'website.apps.WebsiteConfig',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -138,3 +147,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

@@ -17,7 +17,7 @@ def contact_view(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             new_name = form.save(commit=False)
-            new_name.name = 'Unknwon'
+            new_name.name = 'Unknown'
     
             form.save()
             messages.add_message(request, messages.SUCCESS, "Your ticket submited successfully")

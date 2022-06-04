@@ -202,13 +202,8 @@
     <script src="{% static 'js/mail-script.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     
-    {% if messages %}
-    {% for message in messages %}
-     {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+    {% include 'messages.html' %}
 
-    {% endfor %}
-
-{% endif %}
 </body>
 
 </html>
