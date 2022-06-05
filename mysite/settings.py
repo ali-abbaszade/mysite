@@ -34,9 +34,31 @@ SITE_ID = 2
 ROBOTS_USE_SITEMAP = False
 ROBOTS_USE_HOST = False
 
+# Summernote configuration
+SUMMERNOTE_THEME = 'bs4'
+
+SUMMERNOTE_CONFIG = {
+    # Using SummernoteWidget - iframe mode, default
+    'iframe': True,
+
+    # You can put custom Summernote settings
+    'summernote': {
+        # As an example, using Summernote Air-mode
+        'airMode': False,
+
+        # Change editor size
+        'width': '100%',
+        'height': '480',
+
+        # Use proper language setting automatically (default)
+        'lang': None,
+    }
+}
+
 # Application definition
 
 INSTALLED_APPS = [
+    'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,9 +70,11 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_extensions',
     "debug_toolbar",
+    'captcha',
     'robots',
     'blog',
     'taggit',
+    'django_summernote',
     'website.apps.WebsiteConfig',
 ]
 
@@ -128,6 +152,12 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# Capthca settings
+MULTI_CAPTCHA_ADMIN = {
+    'engine': 'simple-captcha',
+}
+
 
 
 # Static files (CSS, JavaScript, Images)
