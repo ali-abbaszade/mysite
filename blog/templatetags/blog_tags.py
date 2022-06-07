@@ -1,8 +1,9 @@
 from imp import create_dynamic
 from telnetlib import STATUS
 from unicodedata import category
+from xml.etree.ElementTree import Comment
 from django import template
-from blog.models import Post
+from blog.models import Post, Comment
 from blog.models import Category
 
 register = template.Library()
@@ -17,6 +18,11 @@ def total_posts():
 def total_posts():
     posts = Post.objects.filter(status=1)
     return posts
+
+@register.simple_tag(name="comments_count")
+def comment_count(pid):
+    return Comment.objects.filter(post=pid, approved=True).count()
+
 
 @register.filter        
 def snippet(value, arg=5):
@@ -42,3 +48,4 @@ def six_latest_posts():
     posts = Post.objects.filter(status=1).order_by('-published_date')[:6]
 
     return {'posts':posts}    
+    

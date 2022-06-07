@@ -1,7 +1,11 @@
+from xml.etree.ElementTree import Comment
 from django.shortcuts import render, get_object_or_404
-from blog.models import Post
+from blog.models import Post, Comment
+from blog.forms import CommentForm
 from django.utils import timezone
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib import messages
+
 
 
 def blog_view(request, **kwargs):
@@ -31,15 +35,26 @@ def blog_view(request, **kwargs):
 
 
 def blog_single(request, pid):
-    post = get_object_or_404(Post, pk=pid, status=1)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, "Your comment submited successfully")
+        else:
+            messages.add_message(request, messages.ERROR, "Your comment didnt submited")
 
-    single = Post.objects.get(id=pid)
-    next_post = Post.objects.filter(id__gt=single.id).order_by('id').first()
-    prev_post = Post.objects.filter(id__lt=single.id).order_by('id').last()
+
+    post = get_object_or_404(Post, pk=pid, status=1)
+    comments = Comment.objects.filter(post=post.id, approved=True).order_by("-created_date")
+
+    next_post = Post.objects.filter(id__gt=post.id).order_by('id').first()
+    prev_post = Post.objects.filter(id__lt=post.id).order_by('id').last()
 
     post.counted_views = post.counted_views + 1
 
-    context = {'post': post, 'single' : single, 'next_post':next_post, 'prev_post':prev_post}
+    form = CommentForm()
+
+    context = {'post': post, 'next_post':next_post, 'prev_post':prev_post, 'comments':comments, 'form':form}
     post.save()
     return render(request, 'blog/blog-single.html', context)
 
