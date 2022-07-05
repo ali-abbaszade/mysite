@@ -154,7 +154,7 @@
 						{% if request.user.is_authenticated %}
 
 							<input type="hidden" name="name" value="{{request.user.first_name}}">
-							<input type="hidden" name="eamil" value="{{request.user.email}}">
+							<input type="hidden" name="email" value="{{request.user.email}}">
 
 						{% else %}
 							<div class="form-group form-inline">

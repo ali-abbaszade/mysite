@@ -36,17 +36,20 @@ def blog_view(request, **kwargs):
 
 
 def blog_single(request, pid):
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, "Your comment submited successfully")
-        else:
-            messages.add_message(request, messages.ERROR, "Your comment didnt submited")
-
-
     post = get_object_or_404(Post, pk=pid, status=1)
-    if not post.login_require:
+    if post.login_require and not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('accounts:login'))
+    else:
+
+        if request.method == 'POST':
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.add_message(request, messages.SUCCESS, "Your comment submited successfully")
+            else:
+                messages.add_message(request, messages.ERROR, "Your comment didnt submited")
+
+
         comments = Comment.objects.filter(post=post.id, approved=True).order_by("-created_date")
 
         next_post = Post.objects.filter(id__gt=post.id).order_by('id').first()
@@ -59,8 +62,6 @@ def blog_single(request, pid):
         context = {'post': post, 'next_post':next_post, 'prev_post':prev_post, 'comments':comments, 'form':form}
         post.save()
         return render(request, 'blog/blog-single.html', context)
-    else:
-        return HttpResponseRedirect(reverse('accounts:login'))
 
 def blog_search(request):
     posts = Post.objects.filter(status=1)

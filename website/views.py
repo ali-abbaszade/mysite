@@ -37,14 +37,5 @@ def newsletter_view(request):
         return HttpResponseRedirect('/')
 
 
-def test(request):
-    if request.method == "POST":
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            form.save()
-        else:    
-            return HttpResponse("Not valid")
-    
-    form = ContactForm()
-
-    return render(request, 'test.html', {'form':form})
+def maintenance_view(request):
+    return render(request, 'website/maintenance.html')

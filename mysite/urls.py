@@ -17,7 +17,7 @@ from re import template
 from unicodedata import name
 from xml.etree.ElementInclude import include
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
@@ -25,6 +25,7 @@ from website.sitemaps import StaticViewSitemap
 from blog.sitemaps import BlogSitemap
 from django.contrib.auth import views as auth_views
 
+from website.views import *
 
 sitemaps = {
     'static': StaticViewSitemap,
@@ -37,7 +38,7 @@ urlpatterns = [
     path('', include('website.urls')),
     path('blog/', include('blog.urls')),
     path('accounts/' ,include('accounts.urls')),
-
+    path('maintenance/', maintenance_view, name='maintenance'),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name="accounts/reset_password.html"), name="reset_password"),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name="accounts/reset_password_sent.html"), name="password_reset_done"),
